@@ -19,7 +19,7 @@ These are all the steps I took in discussion session to enter Great Lakes and ma
 
 First clone the repo on Great Lakes:
 ```
-git clone https://github.com/datamining-class/WordCount476
+git clone https://github.com/abuyukcakir/WordCount476
 ```
 
 Source code can be found in the directory *src/main/java/com/sample/WordCount*
