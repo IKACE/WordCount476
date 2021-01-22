@@ -96,7 +96,7 @@ public class WordCount {
 
         Configuration conf = new Configuration();
         conf.set("mapred.textoutputformat.separator", ",");
-        conf.set("mapreduce.job.queuename", "eecs476");         // required for this to work on GreatLakes
+        conf.set("mapreduce.job.queuename", "eecs476w21");         // required for this to work on GreatLakes
 
 
         Job wordCountJob = Job.getInstance(conf, "wordCountJob");
