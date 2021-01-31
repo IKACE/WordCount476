@@ -316,6 +316,7 @@ public class TwoMostFrequentStopWords {
         wordCountJob.setOutputValueClass(IntWritable.class);
 
         FileInputFormat.addInputPath(wordCountJob, new Path(inputPath));
+        System.out.println("outputPath: "+ outputPath);
         FileOutputFormat.setOutputPath(wordCountJob, new Path("out1"));
         wordCountJob.waitForCompletion(true);
 
