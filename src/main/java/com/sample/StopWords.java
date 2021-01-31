@@ -1,6 +1,8 @@
 package com.sample;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -11,7 +13,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -308,7 +313,13 @@ public class StopWords {
         FileOutputFormat.setOutputPath(wordCountJob, new Path("out1"));
         wordCountJob.waitForCompletion(true);
 
-        Integer num_lines = Integer.valueOf(Files.readAllLines(Paths.get("out1", "part-r-00000")).get(0).split(",")[1]);
+        Path newPath = new Path("out1", "part-r-00000");
+        FileSystem fs = newPath.getFileSystem(conf);
+        FSDataInputStream inputStream = fs.open(newPath);
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String line = bufferedReader.readLine();
+        Integer num_lines = Integer.valueOf(line.split(",")[1]);
         System.out.println("Total num of lines: "+num_lines.toString());
         conf.set("num_lines", num_lines.toString());
 
