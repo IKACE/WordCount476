@@ -193,11 +193,15 @@ public class StopWordsEven {
             Configuration conf = context.getConfiguration();
             int num_lines = Integer.valueOf(conf.get("num_lines"));
             // TODO: Check edge condition and how to chain output
-            if (num_lines % 2 !=0 && sum > num_lines/2 && sum % 2 ==0) {
-                result.set(sum);
-                context.write(key, result);
-            }
-            else if (num_lines % 2 ==0 && sum >= num_lines/2 && sum % 2 ==0) {
+//            if (num_lines % 2 !=0 && sum > num_lines/2 && sum % 2 ==0) {
+//                result.set(sum);
+//                context.write(key, result);
+//            }
+//            else if (num_lines % 2 ==0 && sum >= num_lines/2 && sum % 2 ==0) {
+//                result.set(sum);
+//                context.write(key, result);
+//            }
+            if (((double)sum)/num_lines >= 0.2) {
                 result.set(sum);
                 context.write(key, result);
             }
