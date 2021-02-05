@@ -198,7 +198,7 @@ public class TwoMostFrequentStopWords {
 //            else if (num_lines % 2 ==0 && sum >= num_lines/2) {
 //                counter.put(key.toString(), sum);
 //            }
-            if (((double)sum)/num_lines >= 0.2) {
+            if (((double)sum)/num_lines >= 0.25) {
                 counter.put(key.toString(), sum);
             }
         }
@@ -216,53 +216,6 @@ public class TwoMostFrequentStopWords {
         }
     }
 
-    // Mapper and reducer for determine stop words
-    public static class DetermineMapper
-            extends Mapper<Text, IntWritable, Text, IntWritable>{
-
-        // Output:
-        // We have the hardcoded value in our case which is 1: IntWritable
-        private final static IntWritable one = new IntWritable(1);
-        // The key is the tokenized words: Text
-        private Text word = new Text();
-
-
-        // Input:
-        // We define the data types of input and output key/value pair after the class declaration using angle brackets.
-        // Both the input and output of the Mapper is a key/value pair.
-
-        // The key is nothing but the offset of each line in the text file: LongWritable
-        // The value is each individual line (as shown in the figure at the right): Text
-        public void map(Text key, IntWritable value, Context context
-        ) throws IOException, InterruptedException {
-            Configuration conf = context.getConfiguration();
-            IntWritable num_lines = new IntWritable(Integer.valueOf(conf.get("num_lines")));
-            context.write(key, num_lines);
-        }
-        // We have written a java code where we have tokenized each word
-        // and assigned them a hardcoded value equal to 1.
-        // Eg: Dear 1, Bear 1,
-    }
-
-    public static class DetermineReducer
-            extends Reducer<Text,IntWritable,Text,IntWritable> {
-        private IntWritable result = new IntWritable();
-
-        // Input:
-        // The key nothing but those unique words which have been generated after the sorting and shuffling phase: Text
-        // The value is a list of integers corresponding to each key: IntWritable
-        // Eg: Bear, [1, 1],
-        // Output:
-        // The key is all the unique words present in the input text file: Text
-        // The value is the number of occurrences of each of the unique words: IntWritable
-        // Eg: Bear, 2; Car, 3,
-
-        public void reduce(Text key, Iterable<IntWritable> values,
-                           Context context
-        ) throws IOException, InterruptedException {
-            context.write(key, values.iterator().next());
-        }
-    }
 
     private static String outputPath;
     private static String inputPath;
